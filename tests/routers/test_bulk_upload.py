@@ -222,7 +222,7 @@ def test_bulk_upload_with_body_folder_value_processed_successfully(mock_handler,
                                                  'checksum': 'ABC123'}}
     # Check that the folder specified in request body has been forwarded to file handler in FileUpload object
     # Note will likley need updating if FileUpload model has new attributes
-    assert "FileUpload(folder='test_folder')" in str(mock_handler.call_args)
+    assert "FileUpload(folder='test_folder'" in str(mock_handler.call_args)
 
 
 # Body has syntactically correct json but data is irrelevant - success result
