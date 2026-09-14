@@ -6,6 +6,7 @@ from pydantic import BaseModel
 class FileUpload(BaseModel):
     "File upload parameters from client request"
     folder: Optional[str] = None
+    replacement_filename: Optional[str] = ""
 
 
 class BulkUploadFileResponse(BaseModel):

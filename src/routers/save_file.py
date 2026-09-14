@@ -1,7 +1,7 @@
 from typing import Optional
 
 import structlog
-from fastapi import APIRouter, UploadFile, Depends, Request
+from fastapi import APIRouter, UploadFile, Depends, Request, HTTPException
 from fastapi.responses import JSONResponse
 
 from src.middleware.client_config_middleware import client_config_middleware
@@ -48,6 +48,13 @@ async def save_file(
     """
     if file is None:
         file = UploadFile(file=None, filename="")
+
+    if body.replacement_filename:
+        if body.replacement_filename == file.filename:
+            message = f"Replacement filename can't be the same as original filename. Both are: {file.filename}"
+            logger.info(message)
+            raise HTTPException(status_code=400, detail=message)
+        file.filename = body.replacement_filename
 
     response = await handle_file_upload_logic(
         request=request,
