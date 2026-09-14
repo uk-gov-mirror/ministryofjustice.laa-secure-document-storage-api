@@ -39,6 +39,21 @@ async def save_file(
     * 201 CREATED on successful save
     * 409 CONFLICT if file already exists
 
+    Replacement Filename
+
+    An optional `replacement_filename` parameter can be specified in the request body. When set, the file
+    will be saved using this name rather than the file's original name. If saved successfully, this
+    replacement name must be used in all subsequent file operations.
+
+    For this to work:
+    - A file with the replacement name must not already exist. Othewise get a 409 error, like above.
+    - The replacement name cannot be the same as the file's original name.
+
+    * 201 CREATED on successful save
+    * 400 BAD REQUEST if replacement name matches original name
+    * 409 CONFLICT if file already exists
+
+    Virus Scan results
     The following codes may be returned from the automatic virus scan:
     * 411 If file content length is not present
     * 400 If a virus is detected
