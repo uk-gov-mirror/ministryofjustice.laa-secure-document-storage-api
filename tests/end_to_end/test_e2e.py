@@ -430,6 +430,71 @@ def test_post_file_without_file_fails_as_expected():
     assert "version_id" not in response.json()
 
 
+# Save file with replacement filename
+
+@pytest.mark.e2e
+def test_post_file_with_replacement_name_uses_replacement_name():
+    upload_file = test_md_file.get_data("README.md")
+    replacement_filename = make_unique_name("new_file.txt")
+    data = {"body": f'{{"replacement_filename": "{replacement_filename}"}}'}
+
+    response = client.post(f"{HOST_URL}/save_file",
+                           headers=token_getter.get_headers(),
+                           data=data,
+                           files=upload_file)
+
+    details = response.json()
+    assert response.status_code == 201
+    assert details["success"].startswith("File saved successfully")
+    assert details["success"].endswith(f"with key {replacement_filename}")
+
+
+@pytest.mark.e2e
+def test_post_file_with_matching_replacement_name_gives_error():
+    upload_file = test_md_file.get_data("README.md")
+    replacement_filename = "README.md"
+    data = {"body": f'{{"replacement_filename": "{replacement_filename}"}}'}
+
+    response = client.post(f"{HOST_URL}/save_file",
+                           headers=token_getter.get_headers(),
+                           data=data,
+                           files=upload_file)
+
+    details = response.json()
+    assert response.status_code == 400
+    assert details.get("detail") == "Replacement filename can't be the same as original filename."
+
+
+@pytest.mark.e2e
+def test_second_save_with_same_replacement_name_gives_error():
+    """
+    Can't save file with replacment_filename if a file with that name already exists
+    even when "original filename" would be acceptable.
+    """
+    upload_file1 = test_md_file.get_data("file1.md")
+    upload_file2 = test_md_file.get_data("file2.md")
+
+    replacement_filename = make_unique_name("new_file.md")
+    data = {"body": f'{{"replacement_filename": "{replacement_filename}"}}'}
+
+    # First save attempt - expected to succeed as replacement filename is new
+    response1 = client.post(f"{HOST_URL}/save_file",
+                            headers=token_getter.get_headers(),
+                            data=data,
+                            files=upload_file1)
+    assert response1.status_code == 201
+
+    # Second save attempt - expected to fail as replacement filename is same as before
+    response2 = client.post(f"{HOST_URL}/save_file",
+                            headers=token_getter.get_headers(),
+                            data=data,
+                            files=upload_file2)
+    details = response2.json()
+    assert response2.status_code == 409
+    assert details.get("detail") == (f"File {replacement_filename} already exists and cannot be overwritten via the "
+                                     "/save_file endpoint. Use PUT endpoint /save_or_update_file to overwrite.")
+
+
 # Virus Check Tests
 
 

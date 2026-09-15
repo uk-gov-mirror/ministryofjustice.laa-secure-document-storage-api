@@ -110,7 +110,7 @@ def test_save_or_update_file_with_body_folder_value_processed_successfully(handl
                                "checksum": "GHI789", "version_id": "3000000", "file_already_existed": False}
     # Check that the folder specified in request body has been forwarded to file handler in FileUpload object
     # Note will likley need updating if FileUpload model has new attributes
-    assert "FileUpload(folder='another_test_folder')" in str(handler_mock.call_args)
+    assert "FileUpload(folder='another_test_folder'" in str(handler_mock.call_args)
 
 
 # =========================== FAILURE =========================== #
