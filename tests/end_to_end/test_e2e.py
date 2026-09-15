@@ -462,7 +462,7 @@ def test_post_file_with_matching_replacement_name_gives_error():
 
     details = response.json()
     assert response.status_code == 400
-    assert details.get("detail") == "Replacement filename can't be the same as original filename. Both are: README.md"
+    assert details.get("detail") == "Replacement filename can't be the same as original filename."
 
 
 @pytest.mark.e2e

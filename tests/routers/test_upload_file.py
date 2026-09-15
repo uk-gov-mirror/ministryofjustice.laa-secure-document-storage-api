@@ -208,5 +208,4 @@ def test_save_file_with_duplicate_replacement_filename_returns_error(test_client
 
     response = test_client.post("/save_file", data=data, files=files)
     assert response.status_code == 400
-    assert response.json()["detail"] == ("Replacement filename can't be the same as original filename. "
-                                         "Both are: original_name.txt")
+    assert response.json()["detail"] == ("Replacement filename can't be the same as original filename.")

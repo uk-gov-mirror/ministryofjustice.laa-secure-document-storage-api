@@ -66,7 +66,7 @@ async def save_file(
 
     if body.replacement_filename:
         if body.replacement_filename == file.filename:
-            message = f"Replacement filename can't be the same as original filename. Both are: {file.filename}"
+            message = "Replacement filename can't be the same as original filename."
             logger.info(message)
             raise HTTPException(status_code=400, detail=message)
         file.filename = body.replacement_filename
