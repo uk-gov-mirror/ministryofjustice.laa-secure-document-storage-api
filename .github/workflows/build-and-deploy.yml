@@ -8,7 +8,7 @@ on:
 jobs:
   deploy_dev:
     environment: dev
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     permissions:
       id-token: write # This is required for requesting the JWT
