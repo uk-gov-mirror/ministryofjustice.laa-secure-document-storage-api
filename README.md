@@ -63,8 +63,7 @@ For SDS developers, another team member will provide access to local development
 - Your local `.env` file has `CLIENT_ID` and `CLIENT_SECRET` with the right values for the environment
 - The client configs repo has been checked-out to a folder that's consistent with the paths specified for `CONFIG_DIR`, `CASBIN_POLICY` and `CASBIN_MODEL` in your local `.env` file.
 
-They
-will need to be placed in the configured directory. The default path is in a directory at the same level as the repo
+They will need to be placed in the configured directory. The default path is in a directory at the same level as the repo
 directory and called `sds-client-configs`
 
 #### Try without credentials
