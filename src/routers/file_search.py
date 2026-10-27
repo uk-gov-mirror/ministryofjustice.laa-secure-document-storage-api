@@ -34,6 +34,12 @@ async def file_search(
     A list of files is returned. If there are more files than the maximum number specified then a continuation
     token will also be returned
 
+    The response codes are as folows:
+        * 200 If no errors detected
+        * 400 Maximum files to be retrieved must be between 1 and 1000
+        * 500 Unexpected error during file search
+    
+
     """
 
     error_status = ()
